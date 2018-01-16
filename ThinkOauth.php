@@ -11,7 +11,7 @@
 // | 第三方登录SDK基类
 // +----------------------------------------------------------------------
 
-namespace lt\ThinkSDK;
+namespace agang235\ThinkSDK;
 
 abstract class ThinkOauth
 {
@@ -54,7 +54,7 @@ abstract class ThinkOauth
 
     /**
      * 获取request_code的额外参数 URL查询字符串格式
-     * @var srting
+     * @var string
      */
     protected $Authorize = '';
 
@@ -91,6 +91,7 @@ abstract class ThinkOauth
     /**
      * 构造方法，配置应用信息
      * @param array $token
+     * @throws \think\Exception
      */
     public function __construct($token = null)
     {
@@ -112,13 +113,16 @@ abstract class ThinkOauth
     /**
      * 取得Oauth实例
      * @static
+     * @param $type
+     * @param null $token
      * @return mixed 返回Oauth
+     * @throws \think\Exception
      */
     public static function getInstance($type, $token = null)
     {
         $name = ucfirst(strtolower($type)) . 'SDK';
-        if (class_exists("lt\ThinkSDK\sdk\\{$name}")) {
-            $class_name = "\lt\ThinkSDK\sdk\\{$name}";
+        if (class_exists("agang235\ThinkSDK\sdk\\{$name}")) {
+            $class_name = "\agang235\ThinkSDK\sdk\\{$name}";
             return new $class_name($token);
         } else {
             throw new \think\Exception('CLASS_NOT_EXIST:' . $name, 100002);
@@ -132,11 +136,11 @@ abstract class ThinkOauth
     {
         $this->config();
         //Oauth 标准参数
-        $params = array(
+        $params = [
             'client_id' => $this->AppKey,
             'redirect_uri' => $this->Callback,
             'response_type' => $this->ResponseType,
-        );
+        ];
 
         //获取额外参数
         if ($this->Authorize) {
@@ -167,18 +171,19 @@ abstract class ThinkOauth
     /**
      * 获取access_token
      * @param string $code 上一步请求到的code
-     *      $code = $_GET['code']
+     * $code = $_GET['code']
+     * @return array|null
      */
     public function getAccessToken($code, $extend = null)
     {
         $this->config();
-        $params = array(
+        $params = [
             'client_id' => $this->AppKey,
             'client_secret' => $this->AppSecret,
             'grant_type' => $this->GrantType,
             'code' => $code,
             'redirect_uri' => $this->Callback,
-        );
+        ];
 
         $data = $this->http($this->GetAccessTokenURL, $params, 'POST');
         $this->Token = $this->parseToken($data, $extend);
@@ -190,17 +195,20 @@ abstract class ThinkOauth
      * @param  string $url 请求URL
      * @param  array $params 请求参数
      * @param  string $method 请求方法GET/POST
+     * @param array $header
+     * @param bool $multi
      * @return array  $data   响应数据
+     * @throws \think\Exception
      */
     protected function http($url, $params, $method = 'GET', $header = array(), $multi = false)
     {
-        $opts = array(
+        $opts = [
             CURLOPT_TIMEOUT => 30,
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_SSL_VERIFYPEER => false,
             CURLOPT_SSL_VERIFYHOST => false,
             CURLOPT_HTTPHEADER => $header
-        );
+        ];
 
         /* 根据请求类型设置特定参数 */
         switch (strtoupper($method)) {

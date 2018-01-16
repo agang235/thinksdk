@@ -9,9 +9,9 @@
 // | WeixinSDK.php  By Taoge 2017/9/28 11:30
 // +----------------------------------------------------------------------
 
-namespace lt\ThinkSDK\sdk;
+namespace agang235\ThinkSDK\sdk;
 
-use lt\ThinkSDK\ThinkOauth;
+use agang235\ThinkSDK\ThinkOauth;
 
 class AlipaySDK extends ThinkOauth
 {
@@ -184,5 +184,5 @@ class AlipaySDK extends ThinkOauth
 
 }
 
-?>
+
 

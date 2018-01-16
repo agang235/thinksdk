@@ -8,12 +8,20 @@
 // +----------------------------------------------------------------------
 // | QqSDK.php  By Taoge 2017/9/28 11:34
 // +----------------------------------------------------------------------
-namespace lt\ThinkSDK\sdk;
+namespace agang235\ThinkSDK\sdk;
 
-use lt\ThinkSDK\ThinkOauth;
+use agang235\ThinkSDK\ThinkOauth;
+use agang235\curl\Url;
 
 class QqSDK extends ThinkOauth
 {
+
+    /**
+     * 获取用户信息的api接口
+     * 参数说明: http://wiki.open.qq.com/wiki/【QQ登录】get_user_info
+     * @var string
+     */
+    protected $GetUserInfoURL = 'https://graph.qq.com/user/get_user_info';
 
     /**
      * 获取requestCode的api接口
@@ -29,7 +37,7 @@ class QqSDK extends ThinkOauth
 
     /**
      * 获取request_code的额外参数,可在配置中修改 URL查询字符串格式
-     * @var srting
+     * @var string
      */
     protected $Authorize = 'scope=get_user_info,add_share';
 
@@ -49,12 +57,12 @@ class QqSDK extends ThinkOauth
     public function call($api, $param = '', $method = 'GET', $multi = false)
     {
         /* 腾讯QQ调用公共参数 */
-        $params = array(
+        $params = [
             'oauth_consumer_key' => $this->AppKey,
             'access_token' => $this->Token['access_token'],
             'openid' => $this->openid(),
             'format' => 'json'
-        );
+        ];
         $data = $this->http($this->url($api), $this->param($params, $param), $method);
         return json_decode($data, true);
     }
@@ -62,6 +70,9 @@ class QqSDK extends ThinkOauth
     /**
      * 解析access_token方法请求后的返回值
      * @param string $result 获取access_token的方法的返回值
+     * @param $extend
+     * @return mixed
+     * @throws \think\Exception
      */
     protected function parseToken($result, $extend)
     {
@@ -77,6 +88,7 @@ class QqSDK extends ThinkOauth
     /**
      * 获取当前授权应用的openid
      * @return string
+     * @throws \think\Exception
      */
     public function openid()
     {
@@ -95,4 +107,28 @@ class QqSDK extends ThinkOauth
         }
     }
 
+    /**
+     * 获取用户资料 需要三个参数
+     * 1.access_token 授权码
+     * 2.openid 用户在本站的唯一标志码
+     * 3.oauth_consumer_key 应用注册成功后分配的 APP ID
+     * @param $token
+     * @return array
+     * @throws \think\Exception
+     */
+    public function getUserInfo($token)
+    {
+        // 如果键值不存在,抛出错误
+        if(!isset($token['access_token']) || !isset($token['openid'])){
+            throw new \think\Exception("缺少必要参数");
+        }
+        $params = [
+            'oauth_consumer_key' => $this->AppKey, //app id
+            'access_token' => $token['access_token'],
+            'openid' => $token['openid'],
+            'format' => 'json'
+        ];
+        $data = $this->http($this->GetUserInfoURL, $params, 'GET');
+        return json_decode($data, true);
+    }
 }

@@ -8,9 +8,9 @@
 // +----------------------------------------------------------------------
 // | GithubSDK.php  By Taoge 2017/9/28 11:31
 // +----------------------------------------------------------------------
-namespace lt\ThinkSDK\sdk;
+namespace agang235\ThinkSDK\sdk;
 
-use lt\ThinkSDK\ThinkOauth;
+use agang235\ThinkSDK\ThinkOauth;
 
 class GithubSDK extends ThinkOauth
 {
@@ -53,6 +53,9 @@ class GithubSDK extends ThinkOauth
     /**
      * 解析access_token方法请求后的返回值
      * @param string $result 获取access_token的方法的返回值
+     * @param $extend
+     * @return mixed
+     * @throws \think\Exception
      */
     protected function parseToken($result, $extend)
     {
@@ -68,6 +71,7 @@ class GithubSDK extends ThinkOauth
     /**
      * 获取当前授权应用的openid
      * @return string
+     * @throws \think\Exception
      */
     public function openid()
     {

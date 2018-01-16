@@ -8,12 +8,19 @@
 // +----------------------------------------------------------------------
 // | WeixinSDK.php  By Taoge 2017/9/28 11:37
 // +----------------------------------------------------------------------
-namespace lt\ThinkSDK\sdk;
+namespace agang235\ThinkSDK\sdk;
 
-use lt\ThinkSDK\ThinkOauth;
+use agang235\ThinkSDK\ThinkOauth;
 
 class WeixinSDK extends ThinkOauth
 {
+    /**
+     * 获取用户信息的api接口
+     * 参数说明: http://wiki.open.qq.com/wiki/【QQ登录】get_user_info
+     * @var string
+     */
+    protected $GetUserInfoURL = 'https://api.weixin.qq.com/sns/userinfo';
+
     /**
      * 获取requestCode的api接口
      * @var string
@@ -61,6 +68,7 @@ class WeixinSDK extends ThinkOauth
     /**
      * 获取access_token
      * @param string $code 上一步请求到的code
+     * @return array|mixed|null|\stdClass
      */
     public function getAccessToken($code, $extend = null)
     {
@@ -121,7 +129,29 @@ class WeixinSDK extends ThinkOauth
         else
             exit('没有获取到微信用户ID！');
     }
+
+    /**
+     * 获取用户资料 需要2个参数
+     * 1.access_token 授权码
+     * 2.openid 用户在本站的唯一标志码
+     * @param $token
+     * @return array
+     * @throws \think\Exception
+     */
+    public function getUserInfo($token)
+    {
+        // 如果键值不存在,抛出错误
+        if(!isset($token['access_token']) || !isset($token['openid'])){
+            throw new \think\Exception("缺少必要参数");
+        }
+        $params = [
+            'access_token' => $token['access_token'],
+            'openid' => $token['openid'],
+        ];
+        $data = $this->http($this->GetUserInfoURL, $params, 'GET');
+        return json_decode($data, true);
+    }
 }
 
-?>
+
 

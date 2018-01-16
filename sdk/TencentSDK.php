@@ -8,9 +8,9 @@
 // +----------------------------------------------------------------------
 // | TencentSDK.php  By Taoge 2017/9/28 11:36
 // +----------------------------------------------------------------------
-namespace lt\ThinkSDK\sdk;
+namespace agang235\ThinkSDK\sdk;
 
-use lt\ThinkSDK\ThinkOauth;
+use agang235\ThinkSDK\ThinkOauth;
 
 class TencentSDK extends ThinkOauth
 {
@@ -61,6 +61,9 @@ class TencentSDK extends ThinkOauth
     /**
      * 解析access_token方法请求后的返回值
      * @param string $result 获取access_token的方法的返回值
+     * @param $extend
+     * @return array
+     * @throws \think\Exception
      */
     protected function parseToken($result, $extend)
     {
@@ -75,6 +78,7 @@ class TencentSDK extends ThinkOauth
     /**
      * 获取当前授权应用的openid
      * @return string
+     * @throws \think\Exception
      */
     public function openid()
     {

@@ -1,35 +1,39 @@
-# 项目简介：
-> 1. 此项目并非原创,而是前端时间在github上查找第三方相关登录扩展时,没有找到合适的就在tp官网上找到一个比较全面和简洁的 
-> 2. 参考项目 https://github.com/Aoiujz/ThinkSDK
-> 3. 项目原地址 http://www.thinkphp.cn/extend/1050.html
+<?php
+// +----------------------------------------------------------------------
+// | Created by PhpStorm. * User: Administrator * Date: 2018/1/15 * Time: 5:46
+// +----------------------------------------------------------------------
+// | 用途描述: 第三方登录
+// +----------------------------------------------------------------------
+// | 注意事项:
+// +----------------------------------------------------------------------
 
-1. 使用命名空间
-```
+namespace app\index\controller;
+use think\Controller;
 use agang235\ThinkSDK\ThinkOauth;
-```
-    
-2. 设置三方登录的类别并赋予一个变量
-```
-$type = ThinkOauth::getInstance('qq');
-```
-    
-3. 设置配置文件
-```
-请查看 files/extra/sdk.php文件
+//use app\user\event\TypeEvent;
 
-```
-    
-4. 实例化一个登录页面
-```
-redirect($type->getRequestCodeURL());
-        这里的$type是第二部获取的结果
-```
-    
-5. 回调页面
-```
-请参照 files/extra/controller/Third.php文件
 
-//授权回调地址
+class Third extends Controller
+{
+    /**
+     * 登录地址
+     * 访问 http://www.xxx.com/index/third/index?type=qq
+     */
+    public function index()
+    {
+        //获取type值
+        $type = input('param.type',null); //不存在则设为null
+        if(!$type){
+            $this->error('type值不存在');
+        }else{
+            //加载ThinkOauth类并实例化一个对象
+            $sns = ThinkOauth::getInstance($type);
+            //跳转到授权页面
+            $this->redirect($sns->getRequestCodeURL());
+        }
+    }
+
+    //授权回调地址
     public function callback($type = null, $code = null)
     {
         //支付宝code
@@ -52,7 +56,7 @@ redirect($type->getRequestCodeURL());
         //如： $qq = ThinkOauth::getInstance('qq', $token);
         $token = $sns->getAccessToken($code, $extend);
 
-//         array(4) {//$token QQ登录返回数据样例
+//         array(4) {//$token
 //         ["access_token"] => string(32) "A987D3A8400EA0FE5523797DD15D3277"
 //         ["expires_in"] => string(7) "7776000"
 //         ["refresh_token"] => string(32) "9F6E5D471FD744AFD4FA3A1EC117A583"
@@ -64,5 +68,5 @@ redirect($type->getRequestCodeURL());
         dump($userInfo);
 
     }
-```
-    
+
+}

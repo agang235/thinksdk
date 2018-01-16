@@ -8,9 +8,9 @@
 // +----------------------------------------------------------------------
 // | DoubanSDK.php  By Taoge 2017/9/28 11:31
 // +----------------------------------------------------------------------
-namespace lt\ThinkSDK\sdk;
+namespace agang235\ThinkSDK\sdk;
 
-use lt\ThinkSDK\ThinkOauth;
+use agang235\ThinkSDK\ThinkOauth;
 
 class DoubanSDK extends ThinkOauth
 {
@@ -52,6 +52,9 @@ class DoubanSDK extends ThinkOauth
     /**
      * 解析access_token方法请求后的返回值
      * @param string $result 获取access_token的方法的返回值
+     * @param $extend
+     * @return array|mixed|\stdClass
+     * @throws \think\Exception
      */
     protected function parseToken($result, $extend)
     {
@@ -67,6 +70,7 @@ class DoubanSDK extends ThinkOauth
     /**
      * 获取当前授权应用的openid
      * @return string
+     * @throws \think\Exception
      */
     public function openid()
     {
