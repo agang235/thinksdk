@@ -1,10 +1,21 @@
-使用方式：
-1、使用命名空间
-    use lt\ThinkSDK\ThinkOauth;
+# 项目简介：
+> 1. 此项目并非原创,而是前端时间在github上查找第三方相关登录扩展时,没有找到合适的就在tp官网上找到一个比较全面和简洁的 
+> 2. 参考项目 https://github.com/Aoiujz/ThinkSDK
+> 3. 项目原地址 http://www.thinkphp.cn/extend/1050.html
+
+1. 使用命名空间
+```
+use lt\ThinkSDK\ThinkOauth;
+```
+    
 2. 设置三方登录的类别并赋予一个变量
-    $type = ThinkOauth::getInstance('qq');
+```
+$type = ThinkOauth::getInstance('qq');
+```
+    
 3. 设置配置文件
-    'THINK_SDK_(TYPE)' => array(
+```
+'THINK_SDK_(TYPE)' => array(
         'APP_KEY'    => '', //应用注册成功后分配的 APP ID
         'APP_SECRET' => '', //应用注册成功后分配的KEY
         'CALLBACK'   => '', //注册应用填写的callback
@@ -41,11 +52,17 @@
         // 用户基本信息API接口 users/me
         //搜狐微博配置 THINK_SDK_SOHU
         // 用户基本信息API接口 i/prv/1/user/get-basic-info
+```
+    
 4. 实例化一个登录页面
-    redirect($type->getRequestCodeURL());
+```
+redirect($type->getRequestCodeURL());
         这里的$type是第二部获取的结果
+```
+    
 5. 回调页面
-    $code = $this->get('code');
+```
+$code = $this->get('code');
     $type = 'QQ';
     $sns  = ThinkOauth::getInstance($type);
     //腾讯微博需传递的额外参数
@@ -70,3 +87,5 @@
             throw new \think\Exception('获取腾讯QQ用户信息失败 : '.$data['msg']);
         }
     }
+```
+    
