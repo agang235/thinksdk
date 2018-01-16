@@ -1,12 +1,9 @@
-# ThinkSDK
-第三方登录, QQ登录, 微信登录, 微博登录, 淘宝登录, 包含了主流第三方登录
-
 使用方式：
 1、使用命名空间
     use lt\ThinkSDK\ThinkOauth;
-2、设置三方登录的类别并赋予一个变量
+2. 设置三方登录的类别并赋予一个变量
     $type = ThinkOauth::getInstance('qq');
-3、设置配置文件
+3. 设置配置文件
     'THINK_SDK_(TYPE)' => array(
         'APP_KEY'    => '', //应用注册成功后分配的 APP ID
         'APP_SECRET' => '', //应用注册成功后分配的KEY
@@ -44,10 +41,10 @@
         // 用户基本信息API接口 users/me
         //搜狐微博配置 THINK_SDK_SOHU
         // 用户基本信息API接口 i/prv/1/user/get-basic-info
-4、实例化一个登录页面
+4. 实例化一个登录页面
     redirect($type->getRequestCodeURL());
         这里的$type是第二部获取的结果
-5、回调页面
+5. 回调页面
     $code = $this->get('code');
     $type = 'QQ';
     $sns  = ThinkOauth::getInstance($type);
