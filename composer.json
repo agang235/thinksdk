@@ -16,6 +16,6 @@
         "psr-4": {
             "agang235\\ThinkSDK\\": "src/"
         }
-    },
+    }
 }
 
