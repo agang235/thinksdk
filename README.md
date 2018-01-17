@@ -3,11 +3,6 @@
 > 2. 参考项目 https://github.com/Aoiujz/ThinkSDK
 > 3. 项目原地址 http://www.thinkphp.cn/extend/1050.html
 
-安装
-```
-composer require agang235/thinksdk
-```
-
 1. 使用命名空间
 ```
 use agang235\ThinkSDK\ThinkOauth;
