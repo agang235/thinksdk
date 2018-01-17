@@ -1,7 +1,7 @@
-﻿# 项目简介：
+# 项目简介：
 > 1. 此项目并非原创,而是前端时间在github上查找第三方相关登录扩展时,没有找到合适的就在tp官网上找到一个比较全面和简洁的 
 > 2. 参考项目 https://github.com/Aoiujz/ThinkSDK
-> 3. 项目原地址 http://www.thinkphp.cn/extend/1050.html  
+> 3. 项目原地址 http://www.thinkphp.cn/extend/1050.html
 
 1. 使用命名空间
 ```

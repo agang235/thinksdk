@@ -1,0 +1,16 @@
+{
+    "name": "agang235/thinksdk",
+    "description": "3223",
+    "authors": [
+        {
+            "name": "agang235",
+            "email": "416148514@qq.com"
+        }
+    ],
+    "require": {},
+	"autoload": {
+        "psr-4": {
+            "agang235\\ThinkSDK\\": "src/"
+        }
+    }
+}
